@@ -1,0 +1,12 @@
+.idea
+*.iml
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+ginlite
+
