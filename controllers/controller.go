@@ -4,9 +4,7 @@ import (
     "fmt"
 )
 
-//共用controller的属性和方法在此文件中定义
-//所有的子controller继承该公用方法
-
+//all public share controller attributes and method can defind here
 type Controller struct {
 }
 
