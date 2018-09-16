@@ -6,9 +6,9 @@ create table user(
     `desc` text,
     detail longtext,
 
-    id int(20) auto_increment primary key,
-    createdAt datetime,
-    updatedAt datetime,
+    id int(10) unsigned not null auto_increment primary key,
+    createdAt datetime not null default current_timestamp,
+    updatedAt datetime not null on update current_timestamp default current_timestamp,
 
     unique user_accountid_unique (accountid),
     index user_username_index (username),
