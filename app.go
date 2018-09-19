@@ -6,6 +6,7 @@ import (
     _ "github.com/jinzhu/gorm/dialects/mysql"
 
     "ginlite/middlewares"
+    "ginlite/helpers"
 )
 
 
@@ -21,7 +22,11 @@ func main() {
     }
     defer db.Close()
 
-    r.Use(middlewares.SetContext("db", db))
+    r.Use(middlewares.SetContext("_self_context__db", db))
+    r.Use(middlewares.GlobalAuth())
+
+    //init helpers 
+    helpers.InitRand()
 
     RouteRegister(r)
 

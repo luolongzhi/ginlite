@@ -2,68 +2,51 @@ package controllers
 
 import (
 	"fmt"
-    "strings"
-	"ginlite/models"
+    "strconv"
+	m "ginlite/models"
+    h "ginlite/helpers"
 	"github.com/gin-gonic/gin"
-    "github.com/gin-gonic/gin/binding"
+    //"github.com/gin-gonic/gin/binding"
 	"github.com/jinzhu/gorm"
 )
 
 type UserController struct {
 }
 
-type Input1 struct {
-    Username string `form:"username" json:"username"`
+
+type CreateParam struct {
+    Username string `form:"username" json:"username" binding:"required"`
     Nickname string `form:"nickname" json:"nickname"`
 }
 
 func (ctrl *UserController) Create(c *gin.Context) {
-	//var user models.User
-	var err error
+    var  (
+        param CreateParam
+        err error
+    )
 
-	db := c.MustGet("db").(*gorm.DB)
-
-	fmt.Println("3222222222", c.Param("username"))
-	fmt.Println("4222222222", c.Param("nickname"))
-
-	var input1 Input1
-
-	contentType := c.Request.Header.Get("Content-Type")
-    fmt.Println("contentType: ------------", contentType)
-    fmt.Println("mmmmmmmm: ", strings.Contains(contentType, "multipart/form-data"))
-
-    if (strings.Contains(contentType, "application/json")) {
-        err = c.BindJSON(&input1)
-    } else if (strings.Contains(contentType, "application/x-www-form-urlencoded")) {
-		err = c.BindWith(&input1, binding.Form)
-    } else if (strings.Contains(contentType, "multipart/form-data")) {
-		err = c.BindWith(&input1, binding.Form)
+	db := c.MustGet("_self_context__db").(*gorm.DB)
+    if err = c.ShouldBind(&param); err != nil {
+        h.ResError(c, fmt.Sprintf("%s",err))
+        return
     }
 
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	//c.Bind(&input1)
-	fmt.Println("input: ****************: ", input1)
-	fmt.Println("input11: ****************: ", input1.Username, input1.Nickname)
-
-	user := &models.User{
-		Username:  c.PostForm("username"),
-		Nickname:  c.PostForm("nickname"),
+	user := &m.User{
+		Username:  param.Username,
+		Nickname:  param.Nickname,
 		Male:      true,
-		AccountID: "123456789",
+		AccountID: strconv.Itoa(h.RandIntRange(10000000, 99999999)),
 		Desc:      "kkk",
 		Detail:    "hhh"}
-	if err := db.Create(&user).Error; err != nil {
-		fmt.Println("eeeeeeeeeeee: ", err)
+	if err = db.Create(user).Error; err != nil {
+        h.ResError(c, fmt.Sprintf("%s",err))
+        return
 	}
-	fmt.Println("kkkkkk: ", user.ID)
-	fmt.Println("kkkkkk: ", *user)
 
-	//c.JSON(200, user)
-	c.JSON(200, gin.H{"status": "ok"})
+    var retUser m.User
+    db.First(&retUser, user.ID)
+
+    h.ResJson(c, retUser)
 }
 
 func (ctrl *UserController) Delete(c *gin.Context) {
@@ -74,7 +57,7 @@ func (ctrl *UserController) Delete(c *gin.Context) {
 	fmt.Println("3222222222", c.PostForm("username"))
 	fmt.Println("4222222222", c.PostForm("nickname"))
 
-	db.Where("account_id=?", "12345").Delete(&models.User{})
+	db.Where("account_id=?", "12345").Delete(&m.User{})
 
 	//c.JSON(200, user)
 	c.JSON(200, gin.H{"status": "ok"})
