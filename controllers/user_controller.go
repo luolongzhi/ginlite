@@ -2,51 +2,50 @@ package controllers
 
 import (
 	"fmt"
-    "strconv"
+	//"strconv"
+	h "ginlite/helpers"
 	m "ginlite/models"
-    h "ginlite/helpers"
 	"github.com/gin-gonic/gin"
-    //"github.com/gin-gonic/gin/binding"
+	//"github.com/gin-gonic/gin/binding"
 	"github.com/jinzhu/gorm"
 )
 
 type UserController struct {
 }
 
-
 type CreateParam struct {
-    Username string `form:"username" json:"username" binding:"required"`
-    Nickname string `form:"nickname" json:"nickname"`
+	Username string `form:"username" json:"username" binding:"required"`
+	Nickname string `form:"nickname" json:"nickname"`
 }
 
 func (ctrl *UserController) Create(c *gin.Context) {
-    var  (
-        param CreateParam
-        err error
-    )
+	var (
+		param CreateParam
+		err   error
+	)
 
 	db := c.MustGet("_self_context__db").(*gorm.DB)
-    if err = c.ShouldBind(&param); err != nil {
-        h.ResError(c, fmt.Sprintf("%s",err))
-        return
-    }
-
-	user := &m.User{
-		Username:  param.Username,
-		Nickname:  param.Nickname,
-		Male:      true,
-		AccountID: strconv.Itoa(h.RandIntRange(10000000, 99999999)),
-		Desc:      "kkk",
-		Detail:    "hhh"}
-	if err = db.Create(user).Error; err != nil {
-        h.ResError(c, fmt.Sprintf("%s",err))
-        return
+	if err = c.ShouldBind(&param); err != nil {
+		h.ResError(c, fmt.Sprintf("%s", err))
+		return
 	}
 
-    var retUser m.User
-    db.First(&retUser, user.ID)
+	user := &m.User{
+		Username: param.Username,
+		Nickname: param.Nickname,
+		Male:     true,
+		//AccountID: strconv.Itoa(h.RandIntRange(10000000, 99999999)),
+		Desc:   "kkk",
+		Detail: "hhh"}
+	if err = db.Create(user).Error; err != nil {
+		h.ResError(c, fmt.Sprintf("%s", err))
+		return
+	}
 
-    h.ResJson(c, retUser)
+	var retUser m.User
+	db.First(&retUser, user.ID)
+
+	h.ResJson(c, retUser)
 }
 
 func (ctrl *UserController) Delete(c *gin.Context) {
