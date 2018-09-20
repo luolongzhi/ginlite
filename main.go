@@ -12,10 +12,12 @@ import (
 	"ginlite/middlewares"
 )
 
-// @title ginlite 
-// @version 0.0.1
-// @description  This is a sample server Petstore server.
-// @BasePath /
+// @title SmartShop API
+// @version v1 
+// @description This is a sample server celler server.
+// @host localhost:8080
+// @BasePath /api
+
 func main() {
 	//init gin and global context
 	r := gin.Default()

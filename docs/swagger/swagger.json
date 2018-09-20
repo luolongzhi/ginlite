@@ -1,10 +1,16 @@
 {
+    "swagger": "2.0",
     "info": {
+        "description": "This is a sample server celler server.",
+        "title": "SmartShop API",
         "contact": {},
-        "license": {}
+        "license": {},
+        "version": "v1"
     },
+    "host": "localhost:8080",
+    "basePath": "/api",
     "paths": {
-        "/ping": {
+        "/v1/ping": {
             "get": {
                 "description": "get string by ID",
                 "consumes": [
@@ -36,7 +42,7 @@
                 }
             }
         },
-        "/users": {
+        "/v1/users": {
             "post": {
                 "description": "创建用户",
                 "consumes": [

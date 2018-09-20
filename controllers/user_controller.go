@@ -28,7 +28,7 @@ type CreateParam struct {
 // @Param   nickname formData string false "用户昵称"
 // @Success 200 {object} models.User helpers.ErrorBody
 // @Failure 400 {object} helpers.ErrorBody "错误码"
-// @Router /users [post]
+// @Router /v1/users [post]
 func (ctrl *UserController) Create(c *gin.Context) {
 	var (
 		param CreateParam

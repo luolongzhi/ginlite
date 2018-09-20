@@ -6,7 +6,13 @@ import (
 )
 
 func RouteRegister(r *gin.Engine) {
-	r.GET("/ping", (&controllers.TestController{}).Ping)
-	r.POST("/users", (&controllers.UserController{}).Create)
-	r.POST("/users.delete", (&controllers.UserController{}).Delete)
+
+    v1 := r.Group("/api/v1")
+    {
+        v1.GET("/ping", (&controllers.TestController{}).Ping)
+        v1.POST("/users", (&controllers.UserController{}).Create)
+        v1.POST("/users.delete", (&controllers.UserController{}).Delete)
+    }
+
+
 }

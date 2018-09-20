@@ -1,3 +1,4 @@
+basePath: /api
 definitions:
   helpers.ErrorBody:
     properties:
@@ -33,11 +34,15 @@ definitions:
       username:
         type: string
     type: object
+host: localhost:8080
 info:
   contact: {}
+  description: This is a sample server celler server.
   license: {}
+  title: SmartShop API
+  version: v1
 paths:
-  /ping:
+  /v1/ping:
     get:
       consumes:
       - application/json
@@ -58,7 +63,7 @@ paths:
           schema:
             type: string
       summary: Test Ping
-  /users:
+  /v1/users:
     post:
       consumes:
       - multipart/form-data
@@ -87,3 +92,4 @@ paths:
             $ref: '#/definitions/helpers.ErrorBody'
             type: object
       summary: 创建用户
+swagger: "2.0"
