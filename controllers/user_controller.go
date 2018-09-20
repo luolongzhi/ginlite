@@ -13,11 +13,22 @@ import (
 type UserController struct {
 }
 
+
 type CreateParam struct {
 	Username string `form:"username" json:"username" binding:"required"`
 	Nickname string `form:"nickname" json:"nickname"`
 }
 
+// 创建用户 
+// @Summary 创建用户 
+// @Description 创建用户 
+// @Accept  mpfd
+// @Produce  json
+// @Param   username formData string true  "用户名字段"
+// @Param   nickname formData string false "用户昵称"
+// @Success 200 {object} models.User helpers.ErrorBody
+// @Failure 400 {object} helpers.ErrorBody "错误码"
+// @Router /users [post]
 func (ctrl *UserController) Create(c *gin.Context) {
 	var (
 		param CreateParam

@@ -36,13 +36,13 @@ func ResError(c *gin.Context, errMsg string) {
 	fmt.Println("000000000000 %v %v %v", data, ok, errMsg)
 
 	if ok {
-		c.JSON(200, ResponseFormat{RequestId: requestId, ErrorCode: data.ErrorCode, Response: data})
+		c.JSON(400, ResponseFormat{RequestId: requestId, ErrorCode: data.ErrorCode, Response: data})
 	} else {
 		localErr := "未知系统错误"
 		body := ErrorBody{
 			ErrorCode: -1,
 			Message:   errMsg,
 			Local:     localErr}
-		c.JSON(200, ResponseFormat{RequestId: requestId, ErrorCode: -1, Response: body})
+		c.JSON(400, ResponseFormat{RequestId: requestId, ErrorCode: -1, Response: body})
 	}
 }

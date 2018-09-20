@@ -1,0 +1,89 @@
+definitions:
+  helpers.ErrorBody:
+    properties:
+      error_code:
+        type: integer
+      local:
+        type: string
+      message:
+        type: string
+    type: object
+  models.User:
+    properties:
+      account_id:
+        type: string
+      avatar:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      desc:
+        type: string
+      detail:
+        type: string
+      id:
+        type: integer
+      male:
+        type: boolean
+      nickname:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /ping:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: We need ID!!
+          schema:
+            type: string
+        "404":
+          description: Can not find ID
+          schema:
+            type: string
+      summary: Test Ping
+  /users:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 创建用户
+      parameters:
+      - description: 用户名字段
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: 用户昵称
+        in: formData
+        name: nickname
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+            type: object
+        "400":
+          description: 错误码
+          schema:
+            $ref: '#/definitions/helpers.ErrorBody'
+            type: object
+      summary: 创建用户
