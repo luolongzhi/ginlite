@@ -65,6 +65,67 @@
                         "description": "用户昵称",
                         "name": "nickname",
                         "in": "formData"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "男性",
+                        "name": "male",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "400": {
+                        "description": "错误码",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/helpers.ErrorBody"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/{id}": {
+            "put": {
+                "description": "更新用户",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新用户",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户名字段",
+                        "name": "username",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户昵称",
+                        "name": "nickname",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "男性",
+                        "name": "male",
+                        "in": "formData"
                     }
                 ],
                 "responses": {

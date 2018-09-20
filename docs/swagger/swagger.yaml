@@ -78,6 +78,10 @@ paths:
         in: formData
         name: nickname
         type: string
+      - description: 男性
+        in: formData
+        name: male
+        type: boolean
       produces:
       - application/json
       responses:
@@ -92,4 +96,41 @@ paths:
             $ref: '#/definitions/helpers.ErrorBody'
             type: object
       summary: 创建用户
+  /v1/users/{id}:
+    put:
+      consumes:
+      - multipart/form-data
+      description: 更新用户
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 用户名字段
+        in: formData
+        name: username
+        type: string
+      - description: 用户昵称
+        in: formData
+        name: nickname
+        type: string
+      - description: 男性
+        in: formData
+        name: male
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+            type: object
+        "400":
+          description: 错误码
+          schema:
+            $ref: '#/definitions/helpers.ErrorBody'
+            type: object
+      summary: 更新用户
 swagger: "2.0"

@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"fmt"
+	//"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -33,7 +33,6 @@ func ResError(c *gin.Context, errMsg string) {
 	requestId := c.MustGet("_self_context__request_id").(string)
 
 	data, ok := ERRMSG_MAP[errMsg]
-	fmt.Println("000000000000 %v %v %v", data, ok, errMsg)
 
 	if ok {
 		c.JSON(400, ResponseFormat{RequestId: requestId, ErrorCode: data.ErrorCode, Response: data})
