@@ -2,10 +2,12 @@ package controllers
 
 import (
 	"fmt"
+    "reflect"
 	//"strconv"
 	"github.com/gin-gonic/gin"
 	//"github.com/gin-gonic/gin/binding"
 	//"github.com/jinzhu/gorm"
+    //"github.com/fatih/structs"
 
     "ginlite/database"
 	h "ginlite/helpers"
@@ -19,7 +21,7 @@ type UserController struct {
 type CreateParam struct {
 	Username string `form:"username" json:"username" binding:"required"`
 	Nickname string `form:"nickname" json:"nickname"`
-	Male bool `form:"male" json:"male"`
+	Male bool `form:"male" json:"male,omitempty"`
 }
 // 创建用户 
 // @Summary 创建用户 
@@ -65,9 +67,10 @@ func (c *UserController) Create(ctx *gin.Context) {
 
 
 type UpdateParam struct {
-	Username string `form:"username" json:"username"`
+	Username string `form:"username" json:"username,omitempty"`
 	Nickname string `form:"nickname" json:"nickname"`
-    Male bool `form:"male" json:"male" binding:"exists"`
+    Male bool `form:"male" json:"male,omitempty" binding:"exists"`
+    Age int `form:"age" json:"age,omitempty"`
 }
 // 更新用户 
 // @Summary 更新用户 
@@ -98,8 +101,13 @@ func (c *UserController) Update(ctx *gin.Context) {
     fmt.Println("nickname: ", param.Nickname)
     fmt.Println("male: ", param.Male)
 
+    aa := ctx.PostForm("age")
+    fmt.Println("00000000000000000000 isexist: %v, %v", aa, reflect.TypeOf(aa))
+
 	db.First(&user, id)
-	if err = db.Model(&user).Update(param).Error; err != nil {
+	//if err = db.Model(&user).Update(structs.Map(&param)).Error; err != nil {
+    //if err = db.Model(&user).Updates(&param).Error; err != nil {
+    if err = db.Model(&user).Update("age", param.Age).Error; err != nil {
 		h.ResError(ctx, fmt.Sprintf("%s", err))
 		return
 	}

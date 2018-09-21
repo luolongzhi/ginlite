@@ -24,6 +24,7 @@ type User struct {
 
     Password string `json:"-"`
 	Avatar   string
+    Age      int    `json:"age"`
 }
 
 type RetUser struct {
