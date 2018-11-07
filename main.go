@@ -18,6 +18,7 @@ import (
 // @BasePath /api
 func main() {
 	//init gin and global context
+	//r := gin.Default()
 	r := gin.Default()
 
     db, err := database.Init()
